@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title></title>
+		<script type="text/javascript" src="js/jquery-3.2.1.js" ></script>
+		<script type="text/javascript" src="js/jquery.transit.js" ></script>
+		<script type="text/javascript" src="js/hammer.js" ></script>
+		<script type="text/javascript" src="js/iscroll.js" ></script>
+		<script type="text/javascript" src="js/index.js" ></script>
+	</head>
+	<style>
+		@font-face {
+			  font-family: 'iconfont';  /* project id 553049 */
+			  src: url('https://at.alicdn.com/t/font_553049_mfnywn8h2p4x6r.eot');
+			  src: url('https://at.alicdn.com/t/font_553049_mfnywn8h2p4x6r.eot?#iefix') format('embedded-opentype'),
+			  url('https://at.alicdn.com/t/font_553049_mfnywn8h2p4x6r.woff') format('woff'),
+			  url('https://at.alicdn.com/t/font_553049_mfnywn8h2p4x6r.ttf') format('truetype'),
+			  url('https://at.alicdn.com/t/font_553049_mfnywn8h2p4x6r.svg#iconfont') format('svg');
+}
+		.icon{
+			font-family: "iconfont";
+		}
+		*{
+			margin: 0;
+			padding: 0;
+			list-style: none;
+			font-style: normal;
+			box-sizing: border-box;
+		}
+		html,body{
+			overflow: hidden;
+			width: 100%;
+			height: 100%;
+		}
+		.banner{
+			width: 100%;
+			height: 48vw;
+			position: relative;
+			overflow: hidden;
+		}
+		.banner ul{
+			width: 600%;
+			height: 100%;
+			position: absolute;
+			left: 0;
+			top: 0;
+		}
+		.banner li{
+			width: 16.6666667%;
+			height: 100%;
+			background: red;
+			float: left;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			font-size: 20px;
+			color: #fff;
+		}		
+		.meu{
+			width: 100%;
+			height: 15vw;
+			display: flex;
+			border: 1px solid #ccc;
+		}
+		.meu span{
+			display: block;
+			width: 50%;
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			color: red;
+			font-size: 20px;
+			cursor: pointer;
+		}
+		.meu span:first-child{
+			border-right: 1px solid #ccc;
+		}
+		.meu span.active{
+			background: aqua;
+			color: #000;
+		}
+		.info{
+			width: 100%;
+			height: auto;
+			padding-bottom: 20vw;
+		}
+		.info li{
+			padding: 0 10vw;
+			/*border-bottom: 1px dotted #00f;*/
+			height: 13vw;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			font-size: 14px;
+			color: #000;
+			position: relative;
+		}
+		.info p{
+			white-space: nowrap;
+			max-width: 45vw;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		.info i{
+			font-size: 20px;
+			color: #ccc;
+		}
+		.info i.active{
+			color: #f66;
+		}
+		.info em{
+			color: #66f;
+		}
+		.info span{
+			position: absolute;
+			font-size: 20px;
+			background: red;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 30vw;
+			height: 100%;
+			top: 0;
+			right:-30vw;
+		}
+		.add{
+			width: 100%;
+			height: 15vw;
+			background: blue;
+			position: fixed;
+			left: 0;
+			bottom: 0;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			color: #fff;
+			font-size: 20px;
+			cursor: pointer;
+		}
+		.open,.open1{
+			display: none;
+			flex-direction: column;
+			justify-content: space-between;
+			position: absolute;
+			width: 70vw;
+			height:90vw;
+			bottom: 50vw;
+			left: 15vw;
+			border: 1px solid #000000;
+			border-radius: 5px;
+			background: white;
+			z-index: 20;
+		}
+		.open label,.open1 label{
+			display: block;
+			width: 100%;
+			border-bottom: 1px solid #000;
+		}
+		textarea{
+			outline: none;
+			width: 100%;
+			border:none;
+			border-radius: 5px;
+			height: 80vw;
+			padding:7vw 5vw;
+			font-size: 20px;
+			color: #000;
+			resize: none;
+		}
+		button{
+			width: 100%;
+			height: 10vw;
+			outline: none;
+			background: blue;
+			border: none;
+			border-radius: 5px;
+			font-size: 20px;
+			color: #fff;
+		}
+		time{
+			display: flex;
+			align-items: center;
+		}
+		.close{
+			background: blue;
+			position: absolute;
+			top: 1vw;
+			right: 1vw;
+			width: 7vw;
+			height: 7vw;
+			font-size: 18px;
+			font-weight: bold;
+			color: #fff;
+			line-height: 7vw;
+			text-align: center;
+			border-radius: 50%;
+		}
+		.mask{
+			position: fixed;
+			background: rgba(0,0,0,0.5);
+			width: 100vw;
+			height: 100vh;
+			top: 0;
+			left: 0;
+			z-index: -1;
+		}
+		.box{
+			width: 100%;
+			height: 120vw;
+			overflow: hidden;
+		}
+		ul.yuan{
+			width: 100%;
+			position: absolute;
+			top:40vw;
+			left:0;
+			display: flex;
+			overflow: hidden;
+			height: 3vw;
+			justify-content: flex-end;
+		}
+		.yuan li{
+			height: 3vw;
+			width: 3vw;
+			border-radius: 50%;
+			border: 1px solid #000;
+			background: #fff;
+			margin-right: 2vw;
+		}
+		.yuan li.active{
+			background: #000;
+		}
+	</style>
+	<body>
+		<div class="banner">
+			<ul>
+				<li>1</li>
+				<li>2</li>
+				<li>3</li>
+				<li>4</li>
+				<li>5</li>
+				<li>1</li>
+			</ul>
+			<ul class="yuan">
+				<li class="active"></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+		</div>
+		<div class="meu">
+			<span class="active" id="isPlan">未完成</span>
+			<span id="isDone">已完成</span>
+		</div>
+		<div class="box">
+			<ul class="info">
+			</ul>
+		</div>
+		<div class="add">添加&nbsp;&nbsp;+</div>
+		<div class="open">
+			<div class="mask"></div>
+			<div class="close">×</div>
+			<label>
+				<textarea></textarea>
+			</label>
+			<button>确定</button>
+		</div>
+		<div class="open1">
+			<div class="mask"></div>
+			<div class="close">×</div>
+			<label>
+				<textarea></textarea>
+			</label>
+			<button>修改</button>
+		</div>
+	</body>
+</html>
